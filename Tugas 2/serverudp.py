@@ -7,7 +7,7 @@ import shutil
 
 HOST = "127.0.0.1"
 PORT = 9000
-file_name = ["di.jpg", "dia.jpg", "stew.jpg", "cynan.jpg", "bart.png"]
+file_name = ["diandra.jpg", "agatha.jpg", "stewart.jpg", "cynantia.jpg", "bart.png"]
 count_client = 1
 
 def req():
