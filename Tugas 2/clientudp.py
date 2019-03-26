@@ -2,38 +2,28 @@ import socket
 import select
 import time
 import sys
+import os
 
 HOST = "127.0.0.1"
-PORT = 5005
-buf = 1024
-timeout = 3
-basename = "new_%s"
+PORT = 9000
+basename = "/new_%s"
 
-#########
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.sendto(basename, (HOST, PORT))
-
+sock.sendto("ijin", (HOST, PORT))
+#dirpath for new file
+count, addr = sock.recvfrom(1024)
 while True:
 	tmp, addr = sock.recvfrom(1024)
 	if tmp == "fin":
 		break
-	if tmp:
-		# print "File diterima:", data
-		file_name = tmp.strip()
-
-	f = open(basename % file_name, 'wb')
-	while True:
-		ready = select.select([sock], [], [], timeout)
-		if ready[0]:
-			data, addr = sock.recvfrom(40960000)
-			f.write(data)
-		else:
-			# print "Finish!"
-			f.close()
-			print "File "+ tmp+ " diterima"
-			sock.sendto("bar", (HOST, PORT))
-			break
-
-
+	if tmp == ('send'):
+		#get filename
+		data, addr = sock.recvfrom(1024)
+		f = open(count + basename % data, 'wb+')
+		#get file
+		isi, addr = sock.recvfrom(40960000)
+		f.write(isi)
+		f.close()
+		print "File "+ data+ " diterima"
+		
 sock.close()
-###########

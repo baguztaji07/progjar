@@ -1,35 +1,49 @@
 import socket
-import select
+from threading import Thread
 import time
 import sys
+import os
+import shutil
 
 HOST = "127.0.0.1"
-PORT = 5005
+PORT = 9000
 file_name = ["di.jpg", "dia.jpg", "stew.jpg", "cynan.jpg", "bart.png"]
+count_client = 1
 
-def kirim(isi,address):
-    while (isi):
-        if(sock.sendto(isi, address)):
-            isi = f.read()
-            time.sleep(0.02) # Give receiver a bit time to save
+def req():
+	data, addr = sock.recvfrom(1024)
+	tmp = str(data)
+	if data == "ijin":
+		count=str(count_client)
+		#create folder
+		if os.path.exists('./client'+count):
+			shutil.rmtree('./client'+count)
+		os.makedirs('./client'+count)
+		#passing dir for new file
+		sock.sendto("client"+count,addr)
+		thread = Thread(target=sendImg, args=(addr))
+		thread.start()
 
+def sendImg(ip, port):
+	addr = (ip, port)
+	for x in file_name:
+		print "Sending %s ..." % x
+		sock.sendto("send", addr)
+		#send filename
+		sock.sendto(x,addr)
+		f = open(x, "rb")
+		data = f.read()
+		#send img
+		sock.sendto(data, addr)
+		time.sleep(0.02)
+	#check clients
+	print " "
+	sock.sendto("fin",addr)
+	global count_client
+	count_client += 1
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((HOST, PORT))
 
-#########
-for x in file_name:
-	data, addr = sock.recvfrom(1024)
-	sock.sendto(x, addr)
-	print "Sending %s ..." % x
-
-	f = open(x, "rb")
-	data = f.read()
-	#ukuran = len(data)
-
-	kirim(data,addr)
-	#print "selesai"
-data = sock.recvfrom(1024)
-sock.sendto("fin", addr)
-
-############
+while True:
+	req()
