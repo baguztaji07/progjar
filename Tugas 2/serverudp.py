@@ -18,15 +18,18 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((HOST, PORT))
 
 #########
-data, addr = sock.recvfrom(1024)
-sock.sendto(file_name[0], addr)
-print "Sending %s ..." % file_name[0]
+for x in file_name:
+	data, addr = sock.recvfrom(1024)
+	sock.sendto(x, addr)
+	print "Sending %s ..." % x
 
-f = open(file_name[0], "rb")
-data = f.read()
-ukuran = len(data)
+	f = open(x, "rb")
+	data = f.read()
+	#ukuran = len(data)
 
-kirim(data,addr)
-
+	kirim(data,addr)
+	#print "selesai"
+data = sock.recvfrom(1024)
+sock.sendto("fin", addr)
 
 ############

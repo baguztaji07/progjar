@@ -13,21 +13,27 @@ basename = "new_%s"
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.sendto(basename, (HOST, PORT))
 
-
-data, addr = sock.recvfrom(1024)
-if data:
-	print "File diterima:", data
-	file_name = data.strip()
-
-f = open(basename % file_name, 'wb')
 while True:
-	ready = select.select([sock], [], [], timeout)
-	if ready[0]:
-		data, addr = sock.recvfrom(40960000)
-		f.write(data)
-	else:
-		print "Finish!"
-		f.close()
+	tmp, addr = sock.recvfrom(1024)
+	if tmp == "fin":
 		break
+	if tmp:
+		# print "File diterima:", data
+		file_name = tmp.strip()
+
+	f = open(basename % file_name, 'wb')
+	while True:
+		ready = select.select([sock], [], [], timeout)
+		if ready[0]:
+			data, addr = sock.recvfrom(40960000)
+			f.write(data)
+		else:
+			# print "Finish!"
+			f.close()
+			print "File "+ tmp+ " diterima"
+			sock.sendto("bar", (HOST, PORT))
+			break
+
+
 sock.close()
 ###########
