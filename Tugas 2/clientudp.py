@@ -1,34 +1,33 @@
 import socket
+import select
 import time
 import sys
 
 HOST = "127.0.0.1"
 PORT = 5005
 buf = 1024
-# file_name = sys.argv[1]
-file_name = "di.jpg"
-file_name1 = "dia.jpg"
-file_name2 = "stew.jpg"
-file_name3 = "cynan.jpg"
-file_name4 = "bart.png"
+timeout = 3
+basename = "new_%s"
 
-konter=1
+#########
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-sock.sendto(file_name, (HOST, PORT))
-print "Sending %s ..." % file_name
-
-f = open(file_name, "rb")
-data = f.read()
-ukuran = len(data)
+sock.sendto(basename, (HOST, PORT))
 
 
-while(data):
-    if(sock.sendto(data, (HOST, PORT))):
-        data = f.read()
-        print konter
-        time.sleep(0.02) # Give receiver a bit time to save
-    konter = konter + 1
+data, addr = sock.recvfrom(1024)
+if data:
+	print "File diterima:", data
+	file_name = data.strip()
 
+f = open(basename % file_name, 'wb')
+while True:
+	ready = select.select([sock], [], [], timeout)
+	if ready[0]:
+		data, addr = sock.recvfrom(40960000)
+		f.write(data)
+	else:
+		print "Finish!"
+		f.close()
+		break
 sock.close()
-f.close()
+###########

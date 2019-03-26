@@ -1,29 +1,32 @@
 import socket
 import select
+import time
+import sys
 
 HOST = "127.0.0.1"
 PORT = 5005
-timeout = 3
-imagecounter = 1
-basename = "new_%s"
+file_name = ["di.jpg", "dia.jpg", "stew.jpg", "cynan.jpg", "bart.png"]
+
+def kirim(isi,address):
+    while (isi):
+        if(sock.sendto(isi, address)):
+            isi = f.read()
+            time.sleep(0.02) # Give receiver a bit time to save
+
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((HOST, PORT))
 
-while True:
-    data, addr = sock.recvfrom(1024)
-    if data:
-        print "File name:", data
-        file_name = data.strip()
+#########
+data, addr = sock.recvfrom(1024)
+sock.sendto(file_name[0], addr)
+print "Sending %s ..." % file_name[0]
 
-    f = open(basename % file_name, 'wb')
+f = open(file_name[0], "rb")
+data = f.read()
+ukuran = len(data)
 
-    while True:
-        ready = select.select([sock], [], [], timeout)
-        if ready[0]:
-            data, addr = sock.recvfrom(40960000)
-            f.write(data)
-        else:
-            print "%s Finish!" % file_name
-            f.close()
-            break
+kirim(data,addr)
+
+
+############
