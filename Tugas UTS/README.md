@@ -1,4 +1,4 @@
-# Tugas 2 - Progjar F
+# Tugas UTS - Progjar F
 
 ```
 Nama : Bagus Aji Sinto Susilo
@@ -6,35 +6,27 @@ NRP  : 05111640000068
 ```
 
 ### Soal
-![tugas](https://user-images.githubusercontent.com/32744054/55008139-295be600-5013-11e9-88df-b5b2093993f4.jpg)
+![tugas3](https://user-images.githubusercontent.com/32744054/55064962-84dab200-50ad-11e9-9f29-18100ef4a1fd.jpg)
 
 
 
 ### Cara Menjalankan Program
 
-1. Jalankan cmd lalu run program serverudp.py
-2. Buka window cmd baru lalu run program clientudp.py
-3. [optional] Tunggu program clientudp.py selesai running, lalu re-run program clientudp.py
-4. [optional] Buka window cmd baru lalu run program clientudp.py lagi
-5. Close semua cmd
+1. Jalankan cmd lalu run program servertcp.py
+2. Buka window cmd baru lalu run program clienttcp.py
+3. Masukkan perintah seperti pada panduan
 
 ### Deskripsi Singkat Alur Program
 
 1. Server berjalan menunggu client untuk connect
-2. Setelah client connect, server akan membuat folder baru untuk menampung file gambar yang akan dikirim ke client
-3. Server akan mengirim file gambar ke folder yang sudah dibuat tadi
-4. Apabila file gambar sudah terkirim semua, program client otomatis stop namun server tetap running menunggu apabila ada client yang akan connect
+2. Setelah client connect, server menunggu perintah dari client
+3. Server akan melakukan perintah sesuai permintaan dari client
 
 ### Info Tentang Program
 
 1. Folder penampung dibuat oleh server
 2. File dikirim dari server ke client
-3. Proses writing data oleh client
-4. Jumlah file yang dikirim oleh server adalah 5 file
-5. Apabila program client telah selesai berjalan dan program client di run lagi (server belum di close) maka folder akan dibuat lagi terpisah untuk menampung file gambar untuk client baru
-6. Apabila program client belum selesai berjalan dan user membuka window cmd baru untuk run program client maka folder akan dibuat lagi terpisah untuk menampung file gambar untuk client baru
-7. Apabila program server dan client ditutup lalu kedua program tersebut dijalankan kembali maka server akan me-overwrite folder yang sudah ada sebelumnya menjadi folder baru untuk menampung file gambar yang diterima client yang baru
-8. Format nama folder yaitu "client[client_keberapa]" , *client_keberapa berisi angka 1, 2, dst
-9. Format nama file yang terkirim ke client yaitu "new_[nama_file_asli_dari_server]"
-
+3. Download file tertentu akan dikirim oleh server menuju folder bernama %nama_user dengan format nama file new_[file_download]
+4. Download file otomatis akan dikirim oleh server menuju folder client[client_keberapa] dengan format nama file new_[file_download]
+5. Upload file akan dikirim oleh client dari directory client menuju directory server
 # SEKIAN
