@@ -12,6 +12,7 @@ file_name = ["diandra.jpg", "agatha.jpg", "stewart.jpg", "cynantia.jpg", "bart.p
 count_client = 1
 files = glob.glob("*.*")
 folder = glob.glob("**/")
+basename = "/new_%s"
 
 def list_all():
 	for fl in folder:
@@ -58,6 +59,21 @@ def download(uname):
 	conn.sendall("fin")
 	print " "
 
+def upload():
+	while True:
+		filen = sock.recv(1024)
+		tmp = str(filen)
+		if (tmp=="fin"):
+			break
+		else:
+			f = open(basename % filen, 'wb+')
+			#get file
+			isi = sock.recv(40960000)
+			f.write(isi)
+			f.close()
+			print "File "+ filen+ " diterima"
+
+
 def sendImg(tes):
 	ngisi = tes
 	for fn in files:
@@ -97,6 +113,9 @@ while True:
 			conn.sendall("ss")
 			data=conn.recv(1024)
 			download(data)
+		if (abc=="up"):
+			thread = Thread(target=upload, args=(conn,))
+			thread.start()
 		if (abc=="dc"):
 			conn.close()
 			#count_client += 1

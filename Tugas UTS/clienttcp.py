@@ -3,6 +3,7 @@ import select
 import time
 import sys
 import os
+import glob
 
 HOST = "127.0.0.1"
 PORT = 9000
@@ -28,6 +29,30 @@ while True:
 	if command == "exit":
 		sock.send("dc")
 		break
+	if command == "upload":
+		if os.path.exists(uname):
+			os.chdir(uname)
+			sock.sendall("up")
+			filenam = raw_input('Filename: ')
+			sock.sendall("filenam")
+			if filenam in files:
+				print "Sending %s ..." % filenam
+				#conn.sendall("send")
+				#send filename
+				conn.sendall(filenam)
+				f = open(filenam, "rb")
+				filenam = f.read()
+				#send img
+				conn.sendall(filenam)
+				time.sleep(0.02)
+			#check clients
+			conn.sendall("fin")
+			print " "
+
+		else :
+			print "Folder client belum ada"
+		#sock.sendall("up")
+
 	# if command == "ls":
 	# 	sock.send(ls)
 	if command == "list_all":
