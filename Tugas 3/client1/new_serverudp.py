@@ -10,9 +10,17 @@ HOST = "127.0.0.1"
 PORT = 9000
 file_name = ["diandra.jpg", "agatha.jpg", "stewart.jpg", "cynantia.jpg", "bart.png"]
 count_client = 1
-files = glob.glob("*")
+files = glob.glob("*.*")
+folder = glob.glob("**/")
 
-
+def list_all():
+	for fl in folder:
+		conn.sendall(fl)
+		ss = conn.recv(1024)
+	for fn in files:
+		conn.send(fn)
+		ss = conn.recv(1024)
+	conn.send("finish")
 
 def auto_download():
 	#tmp = str(data)
@@ -25,8 +33,30 @@ def auto_download():
 	#print "Connected client addr: %s, %s " % addr
 	#passing dir for new file
 	conn.sendall("client"+count)
+	folder.append("client"+count+"/")
 	thread = Thread(target=sendImg, args=(conn,))
 	thread.start()
+
+def download(uname):
+	data = conn.recv(1024)
+	if os.path.exists(uname):
+		flag = 0
+	else :
+		os.makedirs(uname)
+		folder.append(uname+"/")
+	if data in files:
+		print "Sending %s ..." % data
+		#conn.sendall("send")
+		#send filename
+		conn.sendall(data)
+		f = open(data, "rb")
+		data = f.read()
+		#send img
+		conn.sendall(data)
+		time.sleep(0.02)
+	#check clients
+	conn.sendall("fin")
+	print " "
 
 def sendImg(tes):
 	ngisi = tes
@@ -61,7 +91,12 @@ while True:
 		if (abc=="autodl"):
 			auto_download()
 			#print "Transfer finished\n"
-		
+		if (abc=="ls"):
+			list_all()
+		if (abc=="dl"):
+			conn.sendall("ss")
+			data=conn.recv(1024)
+			download(data)
 		if (abc=="dc"):
 			conn.close()
 			#count_client += 1
