@@ -29,4 +29,6 @@ NRP  : 05111640000068
 3. Download file tertentu akan dikirim oleh server menuju folder bernama %nama_user dengan format nama file new_[file_download]
 4. Download file otomatis akan dikirim oleh server menuju folder client[client_keberapa] dengan format nama file new_[file_download]
 5. Upload file akan dikirim oleh client dari directory client menuju directory server
+5.a Jika namauser baru pertama kali dimasukkan maka tidak bisa upload file dikarenakan folder bernama [nama_user] belum terbuat. maka coba lakukan perintah download suatu file terlebih dahulu
+
 # SEKIAN
