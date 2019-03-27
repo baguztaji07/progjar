@@ -15,8 +15,16 @@ sock.connect(server_addr)
 #dirpath for new file
 #count = sock.recv(1024)
 uname = raw_input('Name: ')
+print "ketik info untuk informasi command"
 while True:
 	command = raw_input('Ur command: ')
+	if command == "info":
+		print "command:"
+		print "list_all      >> melihat semua file dan folder"
+		print "auto_download >> mendownload otomatis file dari server"
+		print "download      >> mendownload file server berdasarkan namafile"
+		print "upload        >> upload file dari client ke server"
+		print "exit          >> keluar"
 	if command == "exit":
 		sock.send("dc")
 		break
