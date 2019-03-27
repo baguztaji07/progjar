@@ -31,4 +31,6 @@ NRP  : 05111640000068
 5. Upload file akan dikirim oleh client dari directory client menuju directory server
 5.a Jika namauser baru pertama kali dimasukkan maka tidak bisa upload file dikarenakan folder bernama [nama_user] belum terbuat. maka coba lakukan perintah download suatu file terlebih dahulu
 
+*Threading di file server ada 2 yaitu untuk upload dan download
+
 # SEKIAN
