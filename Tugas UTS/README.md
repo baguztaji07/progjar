@@ -12,8 +12,8 @@ NRP  : 05111640000068
 
 ### Cara Menjalankan Program
 
-1. Jalankan cmd lalu run program serverudp.py
-2. Buka window cmd baru lalu run program clientudp.py
+1. Jalankan cmd lalu run program servertcp.py
+2. Buka window cmd baru lalu run program clienttcp.py
 3. Masukkan perintah seperti pada panduan
 
 ### Deskripsi Singkat Alur Program
